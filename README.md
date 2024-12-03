@@ -189,7 +189,7 @@ kubectl get pod #Gets information only about PODs
 ```
 Once you execute again the _get pod_ command, take a look at the _AGE_ column. You will see that one of the PODs is brand new. It happens because our deployment manifest has a replicaSet defined.
 ```shell
-vi npeg-services.yaml    #Creates a new Yaml file.
+vi npeg-service.yaml    #Creates a new Yaml file.
 ```
 ```yaml
 apiVersion: v1
@@ -211,7 +211,7 @@ To exit _vi editor_ press _ESC_ then _:wq_
 ls    #Check if you have a new file npeg-services.yaml in you local folder
 ```
 ```shell
-kubectl apply -f npeg-services.yaml    #Deploys the new Deployment manifest based on the created file
+kubectl apply -f npeg-service.yaml    #Deploys the new Deployment manifest based on the created file
 ```
 ```shell
 kubectl get service    #Gets Kubernetes Service information
