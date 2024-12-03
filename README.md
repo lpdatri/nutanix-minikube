@@ -341,7 +341,7 @@ Compare this last output with the VM names that compose your cluster through Pri
 To recap from LAB 1:
   - We have already created two manifests in this VM:
     -  npeg-deployment.yaml
-    -  npeg-services.yaml
+    -  npeg-service.yaml
 
 4. We are going to redeploy our _npeg-deployment.yaml_
 ```shell
@@ -360,7 +360,7 @@ vi npeg-loadbalancer.yaml    #Creates a new Yaml file.
 apiVersion: v1
 kind: Service
 metadata:
-  name: npeg-service
+  name: npeg-loadbalancer
 spec:
   type: LoadBalancer    #This is the difference
   ports:
