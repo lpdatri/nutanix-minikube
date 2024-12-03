@@ -208,7 +208,7 @@ spec:
 ```
 To exit _vi editor_ press _ESC_ then _:wq_
 ```shell
-ls    #Check if you have a new file npeg-services.yaml in you local folder
+ls    #Check if you have a new file npeg-service.yaml in you local folder
 ```
 ```shell
 kubectl apply -f npeg-service.yaml    #Deploys the new Deployment manifest based on the created file
