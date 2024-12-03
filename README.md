@@ -1,8 +1,12 @@
-# Nutanix and Minikube
+# Nutanix and Containers
+Lab created for Nutanix Partner Elite Group - 3rd Edition / Sao Paulo-Brazil. 
 
-Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided in the environment using the NKP Bootcamp workload.
+- Luiz Datri | Channel SE
+- Igor Menezes | Field SE
+- Thiago Coral | Field SE
 
 ## VM Deploy and Prepare
+Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided in the environment using the NKP Bootcamp workload.
 
 1. Each participant show create a virtual machine through Prism Central with:
   - Name: NPEG-_YOUR_NAME_-MINIKUBE
@@ -91,5 +95,124 @@ docker run hello-world
 
 Aditional documentation:
   - https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ 
-  
+
+```shell
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"    #Downloads the lastest version of kubectl
+```
+```shell
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl    #Installs the downloaded version of kubectl
+```
+```shell
+kubectl version --client    #Command to test the installation
+```
+
+## Installing Minikube
+
+Aditional documentation:
+  - https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download
+
+```shell
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64    #Downloads the lastest version of Minikube for Linux
+```
+```shell
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64    #Installs the downloaded version of Minikube
+```
+```shell
+minikube start --driver=docker    #Starts Minikube using the Docker infrastructure
+```
+
+# LAB Overview
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c9429ae0-0d8f-4101-a9b7-1566e14ea362">
+</p>
+
+## LAB 1 - My first container
+
+In this lab we are going to create a Kubernetes Deployment and a Service.
+```shell
+vi npeg-deployment.yaml    #Creates a new Yaml file.
+```
+The following code will be the content of our _deployment.yaml_ file.
+```yaml
+apiVersion: apps/v1 #The v1 API only does not have the replicaset or deployment instruction.
+kind: Deployment
+metadata:
+  name: npeg-deployment
+  labels:
+    app: myapp
+    type: front-end
+spec:
+  template:
+    metadata: #POD definition came from the POD manifest. It has to be a child content of template
+      name: npeg-pod
+      labels:
+        app: myapp
+        type: front-end #Must be the same label as the Selector
+    spec:
+      containers:
+        - name: nginx-controller
+          image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end #Must be the same label as the POD
+```
+To leave _vi editor_ press ESC then :wq
+```shell
+cat npeg-deployment.yaml    #Checks the content of the created file
+```
+```shell
+kubectl apply -f npeg-deployment.yaml    #Deploys the new Deployment manifest based on the created file
+```
+```shell
+kubectl get deployment    #Gets Kubernetes Deployment information
+```
+```shell
+kubectl get all    #Gets information about Deployments, ReplicaSets and etc
+```
+```shell
+kubectl get pod #Gets information only about PODs
+```
+Copy a name of a POD, example: _npeg-deployment-76cb9fb5c4-8p5zg_
+```shell
+kubectl delete pod npeg-deployment-76cb9fb5c4-8p5zg    #It's going to delete the specified POD
+```
+```shell
+kubectl get pod #Gets information only about PODs
+```
+Once you execute again the _get pod_ command, take a look at the _AGE_ column. You will see that one of the PODs is brand new. It happens because our deployment manifest has a replicaSet defined.
+```shell
+vi npeg-services.yaml    #Creates a new Yaml file.
+```
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: npeg-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 80
+      port: 80 #Only mandatory field
+      nodePort: 30008 #If not allocated, a random one will be generated
+  selector: #Same as in the replicaSet, connect by labels
+    app: myapp
+    type: front-end
+```
+To leave _vi editor_ press ESC then :wq
+```shell
+ls    #Check if you have a new file npeg-services.yaml in you local folder
+```
+```shell
+kubectl apply -f npeg-services.yaml    #Deploys the new Deployment manifest based on the created file
+```
+```shell
+kubectl get service    #Gets Kubernetes Service information
+```
+```shell
+minikube service npeg-service  --url    #Returns the URL of a specific Kubernetes service in the cluster managed by Minikube.
+```
+Copy the IP and Port output and execute with the _curl_ command. Example: _curl http://192.168.49.2:30008_
+
+## LAB 2 - NKP + My first container
 
