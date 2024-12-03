@@ -384,3 +384,55 @@ kubectl get service    #Gets Kubernetes Service information
 
 ### Exploring our cluster through NKP:
 
+Finally, we can explore a few applications that come with NKP:
+  - Cluster Dashboard
+  - KubeCost
+  - AI Navigator
+
+1. To access the Cluster Dashboard we can click in _View Details_ and then we click in _Dashboard_
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/031368a0-ccad-4b1e-939e-64abf67a5679">
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d860b244-ed84-43bb-b2e2-f2eaa0be9d19">
+</p>
+
+2. In the _Dashboard_ page, we can we a grafic view of all the commands we executed through this LAB (get nodes, get deployments, get services and etc)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/061b7179-532e-4a57-afa4-635aca7aff41">
+</p>
+
+3. If we go back to the _Management Cluster Workspace_ we can access and use the _NKP AI Navigator_:
+  - If you don't see this small ballon, check if the NKP AI Navigator is enabled.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b7e97a32-0059-4499-8cb6-da0dcbd0e280">
+</p>
+
+4. We can ask, for instance, "How can I integrate my manifest with Nutanix Files?". It will bring an example, like this:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/743548e3-2506-42ae-83ad-7c5e23f08025">
+</p>
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - name: my-container
+      image: my-image
+      volumeMounts:
+        - name: my-volume
+          mountPath: /path/to/mount
+  volumes:
+    - name: my-volume
+      flexVolume:
+        driver: "nutanix/nutanix-files"
+        options:
+          volumeName: my-nutanix-volume
+          shareName: my-nutanix-share
+```
+
+
+
