@@ -36,6 +36,9 @@ Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided
 
   - Customize the guest OS with the following Cloud-init scritp.
   - Our Cloud-Init will set prepare the user, passoword and also disable unecessary repositories in our lab image.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2893e5f9-1ea4-4637-a44b-f6c695103888">
+</p>
 
 ```yaml
 #cloud-config
@@ -128,7 +131,7 @@ minikube start --driver=docker    #Starts Minikube using the Docker infrastructu
 
 ## LAB 1 - My first container
 
-In this lab we are going to create a Kubernetes Deployment and a Service.
+In this lab we are going to create a Kubernetes Deployment and a Service using Minikube.
 ```shell
 vi npeg-deployment.yaml    #Creates a new Yaml file.
 ```
@@ -157,7 +160,7 @@ spec:
     matchLabels:
       type: front-end #Must be the same label as the POD
 ```
-To leave _vi editor_ press ESC then :wq
+To exit _vi editor_ press _ESC_ then _:wq_
 ```shell
 cat npeg-deployment.yaml    #Checks the content of the created file
 ```
@@ -199,7 +202,7 @@ spec:
     app: myapp
     type: front-end
 ```
-To leave _vi editor_ press ESC then :wq
+To exit _vi editor_ press _ESC_ then _:wq_
 ```shell
 ls    #Check if you have a new file npeg-services.yaml in you local folder
 ```
@@ -215,4 +218,169 @@ minikube service npeg-service  --url    #Returns the URL of a specific Kubernete
 Copy the IP and Port output and execute with the _curl_ command. Example: _curl http://192.168.49.2:30008_
 
 ## LAB 2 - NKP + My first container
+
+Now that we have already learned and practiced about the foundation of Kubernetes, let's create a cluster inside of NKP environment and redeploy ours manifests there!
+
+To simplify the LAB workflow, it is recommended to have following consoles opened:
+  - Prism Central
+  - SSH Terminal from the Rocky Linux VM we used in LAB 1
+  - NKP Console
+
+### Accessing NKP Console:
+  1. From Prism Central drop down menu, click in _Infrastructure_ and then select _Apps and Marketpalce_:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/286b23c7-59b3-469c-b520-c6058e34eb51">
+</p> 
+
+  2. Now in the Admin Center page, click on _My Apps_ and look for our NKP cluster already deployed in our HPOC environment. Once founded, click in _Manage_:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/606ceff8-a4ca-4c2c-8b83-3c9cb8334fd5">
+</p> 
+
+  3. Inside our NKP application, we'll have a link to our NKP console and also the username and password to use:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5da89620-1d7d-43eb-9d2a-2bf0b0fe2664">
+</p> 
+
+### Creating our cluster through NKP Console
+
+For this next step, the LAB instructor will have already configured a _Workspace_ and an _Infrastructure Provider_ for you to use during the lab. 
+In our exemple, we have:
+  - Workspace: _npeg89_
+  - Infrastructure Provider: (Nutanix) _dm3poc89_
+
+Also, the LAB instructor will provide:
+  - Subnet name: Example _Secondary_
+  - Control Plane Endpoint IP: Example: _10.55.89.153_
+  - Load Balancer Starting IP: Example: _10.55.89.154_
+  - Load Balancer Ending IP: Example: _10.55.89.155_
+
+1. Select the determined _Workspace_:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/20486f43-9b64-45ff-8d60-35d836de2fe1">
+</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2bdd7238-ef33-450d-b5bb-24fc2516c32b">
+</p>
+
+2. On the left, click in _Clusters_ and then _+ Add Cluster_
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/953f557d-6f1a-4446-bd8e-efac95793baa">
+</p>
+
+3. Define a name for your cluster, considering lowercase letters
+4. Complete the information to configure the _Control Plane Nodes_:
+  - Here we are going to use the _Control Plane Endpoint IP_ shared by the LAB instructor
+  - It's important to set the Control Plane Node Count to _1_
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f03e3e61-8c1f-4661-856a-3315962ede1d">
+</p>
+
+5. Complete the information to configure the _Worker Nodes_:
+  - It's important to set the Worker Node Count to _1_
+  - We can increase the vCPU per node to _12_, to minimize some alerts
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/653b1c21-f7e8-4c21-aa2e-bfd2b873e126">
+</p>
+
+6. We can use the _default_ Storage Container
+7. In the Networking part, we are going to provide the LoadBalancer IP Range provided by the LAB Instructor:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/657d0509-1ae7-4512-89a5-ff9a8b5e047b">
+</p>
+
+8. Last, we need to configure the Registry. As we are using the HPOC environment, we are going to use the _IMAGE REGISTRY MIRROR_.
+  - We don't need to provide any credentials
+  - Double attention to paste the url in the correct fild. We user the _REGISTRY MIRROR_
+```html
+https://registry.nutanixdemo.com/docker.io
+```
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/ca79ddfd-6c2c-459a-8856-ce1bfaabdc91">
+</p>
+
+9. We can create our cluster and wait for it to become _Active_!
+  - During the creation, observe if the Nutanix logo is appering. If it is not, it is because the registry was pasted in the wrong field.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2e53ff18-c2de-477c-b9fd-3ad7cfbea4c5">
+</p>
+
+10. Once finished, we can download the _kubeconfig_ file to connect on it:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4105f513-9ddc-45e8-98af-28763d30559d">
+</p>
+
+### Accessing our cluster and redeploying our manifests, but now inside a cluster created through NKP
+
+1. Connect through SSH Terminal from the Rocky Linux VM we used in LAB 1
+
+2. To connect into our kubernetes cluster, we need to copy our downloaded _kubeconfig_ file to our Linux VM. We are going to do it manually:
+```shell
+vi kubeconfig.yaml    #Creates a new Yaml file.
+```
+- Paste inside of this new file the whole content from the downloaded _kubeconfig_ file.
+To exit _vi editor_ press _ESC_ then _:wq_
+
+3. Once the _kubeconfig.yaml_ is ready, we can execute it through following command:
+```shell
+export KUBECONFIG=kubeconfig.yaml    #Execute the kubeconfig file and connects into our created cluster
+```
+```shell
+kubectl config current-context    #Commands to validade if we are in the correct context (cluster)
+kubectl config get-contexts    ##Commands to validade if we are in the correct context (cluster)
+```
+```shell
+kubectl get nodes    ##Gets Kubernetes Nodes information
+```
+Compare this last output with the VM names that compose your cluster through Prism Central. 
+
+To recap from LAB 1:
+  - We have already created two manifests in this VM:
+    -  npeg-deployment.yaml
+    -  npeg-services.yaml
+
+4. We are going to redeploy our _npeg-deployment.yaml_
+```shell
+kubectl apply -f npeg-deployment.yaml    #Deploys the new Deployment manifest based on the created file
+```
+```shell
+kubectl get deployment    #Gets Kubernetes Deployment information
+```
+
+5. Our first Service manifest, did not consider a LoadBalancer, that's why we couldn't acess our application outside Minikube. NKP already come with MetalLB, and we can use it to expose our POD. To accomplish it, we need to create a new Service manifest:
+  - It is the same Service manifest we used before, the only difference is the _spec type: LoadBalancer_
+```shell
+vi npeg-loadbalancer.yaml    #Creates a new Yaml file.
+```
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: npeg-service
+spec:
+  type: LoadBalancer    #This is the difference
+  ports:
+    - targetPort: 80
+      port: 80 #Only mandatory field
+      nodePort: 30008 #If not allocated, a random one will be generated
+  selector: #Same as in the replicaSet, connect by labels
+    app: myapp
+    type: front-end
+```
+To exit _vi editor_ press _ESC_ then _:wq_
+```shell
+kubectl apply -f npeg-loadbalancer.yaml    #Deploys the new Deployment manifest based on the created file
+```
+```shell
+kubectl get service    #Gets Kubernetes Service information
+```
+
+6. Now we might have a new Service deployed with the name _npeg-service_
+7. We can copy the _External IP_ and _Port_ to connecto into our application through the browser:
+   - In our lab we got: _10.55.89.155:80_
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4cbc49b7-bebc-46a5-8e85-348826ad5c79">
+</p>
+
+### Exploring our cluster through NKP:
 
