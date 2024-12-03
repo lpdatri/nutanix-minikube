@@ -23,7 +23,7 @@ Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided
   - Type: Disk
   - Operation: Clone from Image
   - Image: nkp-rocky-9.4-release-1.29.9 (Consider the last version available in the HPOC enviroment)
-  - Capacity: 128 GiB
+  - Capacity: 100 GiB
   - Bus Type: SCSI
   - BIOS: Keep default option
 
