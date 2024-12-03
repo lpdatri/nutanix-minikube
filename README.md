@@ -407,7 +407,7 @@ Finally, we can explore a few applications that come with NKP:
 </p>
 
 3. If we go back to the _Management Cluster Workspace_ we can access and use the _NKP AI Navigator_:
-  - If you don't see this small ballon, check if the NKP AI Navigator is enabled.
+  - If you don't see this small balloon, check if the NKP AI Navigator is enabled.
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b7e97a32-0059-4499-8cb6-da0dcbd0e280">
 </p>
