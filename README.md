@@ -6,7 +6,8 @@ Lab created for Nutanix Partner Elite Group - 3rd Edition / Sao Paulo-Brazil.
 - Thiago Coral | Field SE
 
 Spraedsheet to consolidate all the users, passwords, and IPs:
-[NPEG - Kubernetes Lab Template.xlsx](https://github.com/user-attachments/files/17997834/NPEG.-.Kubernetes.Lab.Template.xlsx)
+[NPEG - Kubernetes Lab Template.xlsx](https://github.com/user-attachments/files/17997863/NPEG.-.Kubernetes.Lab.Template.xlsx)
+
 
 ## VM Deploy and Prepare
 Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided in the environment using the NKP Bootcamp workload.
