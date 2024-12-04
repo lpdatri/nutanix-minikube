@@ -8,6 +8,10 @@ Lab created for Nutanix Partner Elite Group - 3rd Edition / Sao Paulo-Brazil.
 Spraedsheet to consolidate all the users, passwords, and IPs:
 [NPEG - Kubernetes Lab Template.xlsx](https://github.com/user-attachments/files/17997863/NPEG.-.Kubernetes.Lab.Template.xlsx)
 
+# LAB Overview
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/c9429ae0-0d8f-4101-a9b7-1566e14ea362">
+</p>
 
 ## VM Deploy and Prepare
 Steps to install Minikube in the Nutanix HPOC, using the Rocky Linux VM provided in the environment using the NKP Bootcamp workload.
@@ -127,11 +131,6 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-a
 ```shell
 minikube start --driver=docker    #Starts Minikube using the Docker infrastructure
 ```
-
-# LAB Overview
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/c9429ae0-0d8f-4101-a9b7-1566e14ea362">
-</p>
 
 ## LAB 1 - My first container
 
