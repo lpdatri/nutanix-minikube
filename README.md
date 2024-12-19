@@ -97,7 +97,10 @@ newgrp docker    #Enables our group and permissions changes
 ```
 ```shell
 docker version    #To test it, we can check the docker version and also run the hello-world container
-docker run hello-world
+```
+```shell
+docker version    #To test it, we can check the docker version
+docker run hello-world    #To test it, we can run the hello-world container
 ```
 
 ## Installing kubectl
@@ -207,6 +210,9 @@ spec:
 ```
 To exit _vi editor_ press _ESC_ then _:wq_
 ```shell
+cat npeg-service.yaml    #Checks the content of the created file
+```
+```shell
 ls    #Check if you have a new file npeg-service.yaml in you local folder
 ```
 ```shell
@@ -292,7 +298,7 @@ Also, the LAB instructor will provide:
   <img src="https://github.com/user-attachments/assets/657d0509-1ae7-4512-89a5-ff9a8b5e047b">
 </p>
 
-8. Last, we need to configure the Registry. As we are using the HPOC environment, we are going to use the _IMAGE REGISTRY MIRROR_.
+8. Last, we need to configure the Registry. As we are using the HPOC environment, we are going to use the _IMAGE REGISTRY MIRROR_. Click _SHOW ADVANCED_.
   - We don't need to provide any credentials
   - Double attention to paste the url in the correct fild. We user the _REGISTRY MIRROR_
 ```html
@@ -330,7 +336,9 @@ export KUBECONFIG=kubeconfig.yaml    #Execute the kubeconfig file and connects i
 ```
 ```shell
 kubectl config current-context    #Commands to validade if we are in the correct context (cluster)
-kubectl config get-contexts    ##Commands to validade if we are in the correct context (cluster)
+```
+```shell
+kubectl config get-contexts    #Commands to validade if we are in the correct context (cluster)
 ```
 ```shell
 kubectl get nodes    ##Gets Kubernetes Nodes information
