@@ -99,7 +99,6 @@ newgrp docker    #Enables our group and permissions changes
 docker version    #To test it, we can check the docker version and also run the hello-world container
 ```
 ```shell
-docker version    #To test it, we can check the docker version
 docker run hello-world    #To test it, we can run the hello-world container
 ```
 
