@@ -379,6 +379,9 @@ spec:
 ```
 To exit _vi editor_ press _ESC_ then _:wq_
 ```shell
+cat npeg-loadbalancer.yaml    #Checks the content of the created file
+```
+```shell
 kubectl apply -f npeg-loadbalancer.yaml    #Deploys the new Deployment manifest based on the created file
 ```
 ```shell
