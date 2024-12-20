@@ -99,7 +99,7 @@ newgrp docker    #Enables our group and permissions changes
 docker version    #To test it, we can check the docker version and also run the hello-world container
 ```
 ```shell
-docker run hello-world    #To test it, we can run the hello-world container
+docker run registry.nutanixdemo.com/docker.io/hello-world    #To test it, we can run the hello-world container
 ```
 
 ## Installing kubectl
@@ -159,7 +159,7 @@ spec:
     spec:
       containers:
         - name: nginx-controller
-          image: nginx
+          image: registry.nutanixdemo.com/docker.io/nginx
   replicas: 3
   selector:
     matchLabels:
